@@ -1,0 +1,13 @@
+{
+  "presets": [["@babel/env", { "modules": false }]],
+  "plugins": [
+    [
+      "prismjs",
+      {
+        "languages": ["javascript", "css", "markup"],
+        "plugins": [],
+        "css": false
+      }
+    ]
+  ]
+}

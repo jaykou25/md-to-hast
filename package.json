@@ -10,6 +10,7 @@
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-node-resolve": "^15.0.1",
+    "babel-plugin-prismjs": "^2.1.0",
     "rollup": "^3.18.0"
   },
   "scripts": {
@@ -28,6 +29,8 @@
     "micromark-extension-frontmatter": "^1.0.1",
     "micromark-extension-gfm": "^2.0.1",
     "parse5": "^7.1.2",
+    "prism-material-themes": "^1.0.4",
+    "prismjs": "^1.29.0",
     "remark-breaks": "^3.0.2",
     "remark-frontmatter": "^4.0.1",
     "remark-gemoji": "^7.0.1",
