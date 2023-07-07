@@ -55,6 +55,41 @@ const mdToHast = (str, schema) => {
   });
 
   /**
+   * 遍历 element 元素:
+   * 处理 tagName: raw 的内容, 将 h5 源码转化成 hast
+   *
+   * 处理 tagName: pre > code, 将内容高亮
+   */
+  visit(hast, "raw", (node) => {
+    // 把 html 字符串转化成 hast
+    const parse5Tree = parseFragment(node.value.trim());
+    const hast = fromParse5(parse5Tree.childNodes[0]);
+    const { type, properties, children, tagName } = hast;
+    node.type = type;
+    node.properties = properties;
+    node.children = children;
+    node.tagName = tagName;
+    delete node.value;
+  });
+
+  visit(hast, "element", (node) => {
+    if (node.tagName === "pre") {
+      console.log("处理pre元素", node);
+      /**
+       * 找出 pre 下面 tagName 是 code 的元素 (注意要找 pre > code, 单纯的 code 元素可能是行内 code)
+       * 将 code 元素里的值高亮处理
+       */
+      if (node.children && node.children.length > 0) {
+        node.children.forEach((child) => {
+          if (child.tagName === "code") {
+            handleCode(child);
+          }
+        });
+      }
+    }
+  });
+
+  /**
    * 处理函数, 处理键值是 type 的对象
    * 默认只处理一层, 并不会遍历 children
    */
@@ -136,7 +171,7 @@ const mdToHast = (str, schema) => {
   //   console.log("unknow do noting");
   // }
 
-  one(hast, handler);
+  // one(hast, handler);
 
   // console.log({ hast });
   return sanitize(hast, schema);
