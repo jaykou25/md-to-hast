@@ -17,6 +17,21 @@ import Prism from "prismjs";
 
 Prism.manual = true;
 
+const extensionMap = {
+  vue: "markup",
+  "vue-html": "markup",
+  html: "markup",
+  md: "markdown",
+  rb: "ruby",
+  ts: "typescript",
+  py: "python",
+  sh: "bash",
+  yml: "yaml",
+  styl: "stylus",
+  kt: "kotlin",
+  rs: "rust",
+};
+
 const toTree = (str) => {
   const tree = fromMarkdown(str, {
     extensions: [gfm(), frontmatter()],
@@ -91,19 +106,6 @@ const mdToHast = (str, schema) => {
     }
   });
 
-  function handleRaw(node) {
-    // 把 html 字符串转化成 hast
-    const parse5Tree = parseFragment(node.value.trim());
-    const hast = fromParse5(parse5Tree.childNodes[0]);
-    const { type, properties, children, tagName } = hast;
-    node.type = type;
-    node.properties = properties;
-    node.children = children;
-    node.tagName = tagName;
-    delete node.value;
-    // console.log("handleRaw", { node, parse5Tree, hast });
-  }
-
   function handleCode(node) {
     if (node.children && node.children.length > 0) {
       const lan = node.properties.lang;
@@ -111,7 +113,7 @@ const mdToHast = (str, schema) => {
         if (lan) {
           const text = Prism.highlight(
             child.value,
-            Prism.languages[lan] || Prism.languages.txt,
+            Prism.languages[extensionMap[lan] || lan] || Prism.languages.txt,
             lan
           );
 

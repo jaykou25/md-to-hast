@@ -6,6 +6,7 @@
       {
         "languages": [
           "javascript",
+          "typescript",
           "css",
           "markup",
           "json",
@@ -15,7 +16,11 @@
           "java",
           "python",
           "ruby",
-          "sql"
+          "sql",
+          "yaml",
+          "stylus",
+          "kotlin",
+          "rust"
         ],
         "plugins": [],
         "css": false
